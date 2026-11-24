@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: nginx
-   # labels related to deployment resource
+  # labels related to deployment resource
   labels:
     project: roboshop
     tier: frontend
@@ -16,18 +16,17 @@ spec:
       tier: frontend
       component: frontend
       purpose: deployment
-# Pod
-template:
-  metadata:
-    labels:
+  # Pod
+  template:
+    metadata:
+      labels:
         project: roboshop
         tier: frontend
         component: frontend
         purpose: deployment
-  spec:
-    containers:
-    - name: nginx
-      image: nginx:{{ .Values.deployment.imageVersion }}
-      ports:
-      - containerPort: 80
-
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:{{ .Values.deployment.imageVersion }}
+        ports:
+        - containerPort: 80
