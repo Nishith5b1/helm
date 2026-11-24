@@ -126,3 +126,43 @@ ebs-csi-driver is the release name (what you'd see in helm list). It's your choi
 --namespace kube-system installs it into that namespace.
 --version 2.62.0 pins the chart version. This is not the same as the driver's app version.
 
+########################################################################################
+
+cicd
+=====
+dev
+1. authenticate to dev cluster
+2. helm upgrade --install -f values-dev.yaml
+
+prod
+1. authenticate to prod cluster
+2. helm upgrade --install -f values-prod.yaml
+
+we will keep env specific values seperate we apply/upgrade chart with those values at run time. image is same across all the env only values means configuration changes
+
+Chart.yaml -> contains all the chart related configuration like name, chartversion, apiversion, description, etc
+templates -> where we keep all the manifest files with placeholders
+values.yaml -> we maintain default values for the templates placeholders
+
+linux package manager
+=====================
+/etc/yum.repos.d/jenkins.repo -> add the repository details
+dnf repo update 
+dnf install nginx -y
+
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+helm repo update
+
+helm upgrade --install ebs-csi-driver \
+    --namespace kube-system --version 2.62.0 \
+    aws-ebs-csi-driver/aws-ebs-csi-driver
+
+EBS
+1. install drivers
+
+helm install prometheus-stack prometheus-community/kube-prometheus-stack \
+  --namespace monitoring \
+  --create-namespace
+
+mongodb-dev.daws90s.shop
+mongdb.daws90s.shop
