@@ -105,3 +105,24 @@ nginx-6576699d99-pc8r5   1/1     Running   0          40s
 nginx-6576699d99-vbncx   1/1     Running   0          40s
 
 13.221.191.7 | 172.31.10.245 | t3.micro | https://github.com/Nishith5b1/helm.git
+
+#####################################################################################
+
+It's the chart reference, in the form repo_name/chart_name. Both halves happen to have the same name.
+
+First aws-ebs-csi-driver is the name of the Helm repository you added on your machine, using a command like:
+bash
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+
+The name after repo add is just a local alias. You could have called it ebs or anything else, and then you'd write ebs/aws-ebs-csi-driver.
+
+Second aws-ebs-csi-driver is the name of the chart inside that repository. This one is fixed by whoever published the chart.
+
+This is the same idea as the error you hit earlier ("should be in form of repo_name/path_to_chart"). Instead of . (a chart in your local directory), you're pointing Helm at a chart in a remote repo.
+
+The other parts of the command:
+
+ebs-csi-driver is the release name (what you'd see in helm list). It's your choice and doesn't need to match the chart name.
+--namespace kube-system installs it into that namespace.
+--version 2.62.0 pins the chart version. This is not the same as the driver's app version.
+
